@@ -1,0 +1,106 @@
+@media print {
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
+    }
+}
+
+@page {
+	size: auto;
+	margin: 5mm;
+}
+
+h1, h2, h3, h4 {
+	margin: 1px;
+	padding: 1px;
+}
+
+hr {
+	height: 3px;
+	color: black;
+	background-color: black;
+}
+
+.center {
+	align-content: center;
+	text-align: center;
+}
+
+body{
+	padding-top: 20px;
+	font-family: "Arial",sans-serif;
+	font-weight: 400;
+	font-size: 1em !important;
+}
+
+.title{
+	vertical-align: middle;
+	font-weight: bold;
+	font-size:20px;
+}
+.bigfont{
+	font-size:5em;
+}
+
+.keterangan{
+	border:1px solid black;
+	padding:10px;
+	margin-bottom: 5px;
+}
+.btn-circle {
+	width: 14px;
+	height: 12px;
+	text-align: center;
+	padding: 2px 0 0;
+	font-size: 0.6em;
+	line-height: 1.428571429;
+	border-radius: 50%;
+	border:1px solid #333;
+}
+.buletan{
+	background-color:#333;
+	color:#FFF;
+	font-weight: bold;
+}
+.buletan-kunci{
+	background-color:#81b64d;
+	color:#FFF;
+	font-weight: bold;
+}
+.buletan-salah{
+	background-color:#de4c28;
+	color:#FFF;
+	font-weight: bold;
+}
+.data{
+	border-collapse: collapse;
+}
+.data tr td,.data tr th{
+	border:1px solid #000;
+    vertical-align: top;
+    font-size: 13px !important;
+}
+.data tr th{
+	border-bottom-width: 2px;
+}
+.box{
+	border:1px solid #333;
+	padding:10px;
+}
+.border-left{
+	border-left:3px solid #333;
+	padding-left:30px
+}
+.bold{
+	font-weight: bold;
+}
+.tb-nb tr td{
+	border:none;
+}
+.justify {
+	text-align: justify;
+}
+.right {
+    align-content: right;
+	text-align: right;
+}
