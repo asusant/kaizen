@@ -42,7 +42,7 @@
             </div>
             <div class="card-content">
                 <div class="card-body">
-                    {{ Form::model($filters, ['route' => $base_route.'.create', 'class' => 'form form-horizontal', 'enctype' => 'multipart/form-data'] ) }}
+                    {{ Form::model($filters, ['route' => $base_route.'.create', 'class' => 'form form-horizontal', 'enctype' => 'multipart/form-data', 'id' => 'export-refreshment'] ) }}
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-3 text-right">
@@ -62,11 +62,22 @@
                                 </div>
                             </div>
                             <div class="col-md-3 text-right">
+                                <label for="{{ 'months' }}">Month(s)</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    {{ Form::select('months[]', $months, NULL, ['class' => 'form-control choices-js-months', 'id' => 'months', 'multiple' => 'multiple']) }}
+                                    @if ($errors->has('months'))
+                                        <div class="invalid-feedback">{{ implode(' | ', $errors->get('months')) }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-right">
                                 <label for="{{ 'class' }}">Level(s)</label>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    {{ Form::select('class[]', $cert_class, NULL, ['class' => 'form-control choices-js', 'id' => 'class', 'multiple' => 'multiple']) }}
+                                    {{ Form::select('class[]', $cert_class, NULL, ['class' => 'form-control choices-js-levels', 'id' => 'class', 'multiple' => 'multiple']) }}
                                     @if ($errors->has('class'))
                                         <div class="invalid-feedback">{{ implode(' | ', $errors->get('class')) }}</div>
                                     @endif
@@ -75,7 +86,6 @@
                             <div class="col-md-3"></div>
                             <div class="col-md-8">
                                 {!! (new BApp)->submitBtn('Find') !!}
-                                <a href="{{ route($base_route.'.read', $route_params) }}" class="btn btn-secondary me-1 mb-1">Batal</a>
                             </div>
                         </div>
                     </div>
@@ -83,6 +93,11 @@
                 </div>
 
                 @isset($data)
+                <div class="row d-flex pull-right">
+                    <div class="text-right pe-3">
+                        <a href="#" onclick="exportRefreshment()" class="btn btn-success me-1 mb-1"><span class="bi bi-file-excel"></span> Export</a>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover datatable" id="datatable">
                         <thead>
@@ -125,13 +140,25 @@
 <script src="{{ asset('vendors/choices.js/choices.min.js') }}"></script>
 <script src="{{ asset('vendors/simple-datatables/simple-datatables.js') }}"></script>
 <script>
-    const cs = new Choices('.choices-js', {
+    function exportRefreshment()
+    {
+        var form = document.getElementById('export-refreshment');
+        form.action = '{{ route($base_route.".create", ["print" => 1]) }}';
+        form.submit();
+    }
+
+    const csMonths = new Choices('.choices-js-months', {
+        removeItems: true,
+        removeItemButton: true,
+    });
+
+    const csLevels = new Choices('.choices-js-levels', {
         removeItems: true,
         removeItemButton: true,
     });
 
     // Simple Datatable
-    var tables = [].slice.call(document.querySelectorAll('.datatable'))
+    var tables = [].slice.call(document.querySelectorAll('.datatable'));
     var dataTableList = tables.map(function (el) {
         return new simpleDatatables.DataTable(el);
     });

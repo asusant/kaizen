@@ -61,7 +61,7 @@ Route::group(['middleware' => ['web','auth'],'namespace' => 'App\Modules'.$nama_
 $slug = 'refreshment';
 Route::group(['middleware' => ['web','auth'],'namespace' => 'App\Modules'.$nama_modul.'\Controllers','prefix'=>$slug], function () use ($slug){
     Route::get('/', [RefreshmentController::class, 'index'])->name($slug.'.read');
-    Route::post('/result', [RefreshmentController::class, 'findRefreshment'])->name($slug.'.create');
+    Route::post('/result/{print?}', [RefreshmentController::class, 'findRefreshment'])->name($slug.'.create');
 });
 
 /**

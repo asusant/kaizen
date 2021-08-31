@@ -36,7 +36,19 @@ class Refreshment
                     $pass = false;
                 }
 
-                if(isset($class) && is_array($class) && sizeof($class) > 0)
+                if($pass && isset($months) && is_array($months) && sizeof($months) > 0)
+                {
+                    if( in_array( date('n', strtotime($q->date_start)), $months) )
+                    {
+                        $pass = true;
+                    }
+                    else
+                    {
+                        $pass = false;
+                    }
+                }
+
+                if($pass == true && isset($class) && is_array($class) && sizeof($class) > 0)
                 {
                     if(in_array($q->group, $class))
                     {

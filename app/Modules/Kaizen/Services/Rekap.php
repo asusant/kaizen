@@ -26,6 +26,7 @@ class Rekap
             # get last
             $last = CertificationHistory::join('certification_class as b', $t1.'.class_id', 'b.class_id')
                 ->where($t1.'.employee_id', $r->employee_id)
+                ->where('key', 'like', 'LEVEL%')
                 ->orderBy('b.order', 'desc')
                 ->first();
 
