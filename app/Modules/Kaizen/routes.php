@@ -13,6 +13,7 @@ use App\Modules\Kaizen\Controllers\CertificationController;
 $slug = 'employee';
 Route::group(['middleware' => ['web','auth'],'namespace' => 'App\Modules'.$nama_modul.'\Controllers','prefix'=>$slug], function () use ($slug){
     Route::get('/', [EmployeeController::class, 'index'])->name($slug.'.read');
+    Route::get('/get-data', [EmployeeController::class, 'getData'])->name($slug.'.data.read');
     Route::get('/create', [EmployeeController::class, 'create'])->name($slug.'.create');
     Route::post('/store', [EmployeeController::class, 'store'])->name($slug.'.store');
     Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name($slug.'.edit');

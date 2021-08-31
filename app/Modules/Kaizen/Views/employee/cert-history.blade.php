@@ -34,7 +34,7 @@
     <div class="row match-height">
         <div class="d-flex justify-content-end mb-3">
             <span class="pull-right">
-                <a href="#" onclick="window.history.back()" class="btn btn-outline-primary">Kembali</a>
+                <a href="#" onclick="window.history.back(); event.preventDefault();" class="btn btn-outline-primary">Kembali</a>
             </span>
         </div>
 

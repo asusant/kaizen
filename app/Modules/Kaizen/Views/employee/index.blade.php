@@ -6,7 +6,7 @@
 
 @section('extra-css')
 @if (isset($use_datatable) && $use_datatable)
-<link rel="stylesheet" href="{{ asset('vendors/simple-datatables/style.css') }}">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.min.css"/>
 @endif
 @endsection
 
@@ -55,23 +55,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (sizeof($data) > 0)
-                                    @foreach ($data as $r)
-                                        <tr>
-                                            @foreach ($table_columns as $db_col => $tb_col)
-                                                <td>{{ $r->{$db_col} }}</td>
-                                            @endforeach
-                                            <td>
-                                                <a href="{{ route($base_route.'.cert-history.read', ['id' => $r->employee_id]) }}" class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Lihat Data"><span class="bi bi-eye"></span></a>
-                                                {!! (new BApp)->btnAkses($base_route, $r->{$model->getPrimaryKey()}, (!$use_validate ? ['validate'] : []), 'btn-sm') !!}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="{{ (sizeof($table_columns) + 1) }}" class="text-center"><i>Belum ada data.</i></td>
-                                    </tr>
-                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -83,14 +66,27 @@
 @endsection
 
 @section('extra-js')
-@if (isset($use_datatable) && $use_datatable)
-<script src="{{ asset('vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script src="{{ asset('vendors/jquery/jquery.min.js') }}" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.min.js"></script>
 <script>
-    // Simple Datatable
-    var tables = [].slice.call(document.querySelectorAll('.datatable'))
-    var dataTableList = tables.map(function (el) {
-        return new simpleDatatables.DataTable(el);
+    $(function () {
+        var table = $('.datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route($base_route.'.data.read') }}",
+            columns: [
+                @foreach ($table_columns as $k => $v)
+                {data: '{{ $k }}', name: '{{ $k }}'},
+                @endforeach
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
     });
 </script>
-@endif
 @endsection

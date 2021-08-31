@@ -40,4 +40,9 @@ class Employee extends Model
     {
         return $query->where('status', 'Active employee');
     }
+
+    public function getData()
+    {
+        return self::select('*');
+    }
 }

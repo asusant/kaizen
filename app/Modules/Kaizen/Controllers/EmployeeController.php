@@ -11,6 +11,7 @@ use App\Modules\Bobb\Controllers\BaseController;
 use App\Modules\Kaizen\Models\CertificationHistory;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\DataTables;
 
 class EmployeeController extends BaseController
 {
@@ -115,6 +116,18 @@ class EmployeeController extends BaseController
         else
             $data['data'] = $this->model->orderBy($this->dt_order[0], $this->dt_order[1])->get();
         return view('Kaizen::employee.index', $data);
+    }
+
+    public function getData()
+    {
+        $data = (new Employee)->getData();
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function($row){
+                return '<a href="'.route($this->base_route.'.cert-history.read', ['id' => $row->employee_id]).'" class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Lihat Data"><span class="bi bi-eye"></span></a> '.(new BApp)->btnAkses($this->base_route, $row->{$this->model->getPrimaryKey()}, (!$this->use_validate ? ['validate'] : []), 'btn-sm');
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function import()
