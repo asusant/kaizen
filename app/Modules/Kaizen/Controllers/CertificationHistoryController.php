@@ -29,6 +29,18 @@ class CertificationHistoryController extends BaseController
         'date_start'    => 'Date Start',
         'date_end'      => 'Date End'
     ];
+    public $datatable_columns = [
+        // {DB_Column} => {Table_Title}
+        'nip'           => 'c.nip',
+        'full_name'     => 'c.full_name',
+        'class_desc'    => 'b.key',
+        'cert_desc'     => 'cert_desc',
+        'cert_pass'     => 'cert_pass',
+        'final_mark'    => 'final_mark',
+        'date_start'    => 'date_start',
+        'date_end'      => 'date_end'
+    ];
+
     public $dt_order = ['date_start', 'ASC'];
     public $add_header_right = '';
     public $use_datatable = true;
@@ -51,6 +63,7 @@ class CertificationHistoryController extends BaseController
         $data['table_columns'] = $this->table_columns;
         $data['use_validate'] = $this->use_validate;
         $data['model'] = $this->model;
+        $data['datatable_columns'] = $this->datatable_columns;
         return view('Kaizen::cert_history.index', $data);
     }
 
@@ -75,6 +88,9 @@ class CertificationHistoryController extends BaseController
         $this->validate($req, [
             'history-file' => 'required|file|mimes:xlsx,xls'
         ]);
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', -1);
+
         $import = new ImportCertHistory();
         $import->import($req->file('history-file'));
         $errors = [];

@@ -2,7 +2,6 @@
 
 namespace App\Modules\Kaizen\Services;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
 use App\Modules\Kaizen\Models\CertificationHistory;
 use App\Modules\Kaizen\Models\Employee;
@@ -13,8 +12,10 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class ImportCertHistory implements ToCollection, WithValidation, SkipsOnFailure, WithStartRow
+class ImportCertHistory implements ToCollection, WithValidation, SkipsOnFailure, WithStartRow, WithBatchInserts, WithChunkReading
 {
     use Importable, SkipsFailures;
 
@@ -40,6 +41,16 @@ class ImportCertHistory implements ToCollection, WithValidation, SkipsOnFailure,
     {
         $this->employee_map = Employee::pluck('employee_id', 'nip')->toArray();
         $this->class_map = CertificationClass::pluck('class_id', 'key')->toArray();
+    }
+
+    public function batchSize(): int
+    {
+        return 1000;
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 
     public function startRow(): int
@@ -69,6 +80,7 @@ class ImportCertHistory implements ToCollection, WithValidation, SkipsOnFailure,
         }
         # custom
         $ret['0'] = 'required|numeric';
+        $ret['7'] = 'required|numeric';
 
         return $ret;
     }

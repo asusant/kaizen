@@ -51,7 +51,7 @@
                                     @foreach ($table_columns as $tb_col)
                                         <th>{{ $tb_col }}</th>
                                     @endforeach
-                                    <th width="16%">Aksi</th>
+                                    <th width="17%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

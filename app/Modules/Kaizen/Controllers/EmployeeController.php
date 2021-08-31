@@ -142,6 +142,8 @@ class EmployeeController extends BaseController
         $this->validate($req, [
             'employee-file' => 'required|file|mimes:xlsx,xls'
         ]);
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', -1);
         $import = new ImportEmployee();
         $import->import($req->file('employee-file'));
         $errors = [];

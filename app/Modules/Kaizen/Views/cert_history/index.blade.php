@@ -69,8 +69,8 @@
             serverSide: true,
             ajax: "{{ route($base_route.'.data.read') }}",
             columns: [
-                @foreach ($table_columns as $k => $v)
-                {data: '{{ $k }}', name: '{{ $k }}'},
+                @foreach ($datatable_columns as $k => $v)
+                {data: '{{ $k }}', name: '{{ $v }}'},
                 @endforeach
             ]
         });

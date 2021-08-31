@@ -11,8 +11,10 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class ImportEmployee implements ToCollection, WithValidation, SkipsOnFailure, WithStartRow
+class ImportEmployee implements ToCollection, WithValidation, SkipsOnFailure, WithStartRow, WithBatchInserts, WithChunkReading
 {
     use Importable, SkipsFailures;
 
@@ -30,6 +32,16 @@ class ImportEmployee implements ToCollection, WithValidation, SkipsOnFailure, Wi
     public function startRow(): int
     {
         return 2;
+    }
+
+    public function batchSize(): int
+    {
+        return 1000;
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 
     public function prepareForValidation($data, $index)
