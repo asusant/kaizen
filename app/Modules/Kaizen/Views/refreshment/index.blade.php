@@ -150,11 +150,13 @@
     const csMonths = new Choices('.choices-js-months', {
         removeItems: true,
         removeItemButton: true,
+        shouldSort: false,
     });
 
     const csLevels = new Choices('.choices-js-levels', {
         removeItems: true,
         removeItemButton: true,
+        shouldSort: false,
     });
 
     // Simple Datatable

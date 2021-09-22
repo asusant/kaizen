@@ -97,6 +97,11 @@ class ImportCertHistory implements ToCollection, WithValidation, SkipsOnFailure,
                 $dt[$col] = $row[$key];
             }
 
+            if(!$dt['employee_id'] || $dt['employee_id'] == '')
+            {
+                continue;
+            }
+
             // check if exists
             $cek = CertificationHistory::where('employee_id', $dt['employee_id'])->where('date_start', $dt['date_start'])->first();
 
